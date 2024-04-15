@@ -1,0 +1,10 @@
+.pyc
+__pycache__
+config
+env
+db.sqlite3
+config.py
+garbage
+uploads/products/
+static/
+staticfiles/

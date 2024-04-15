@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-2">
+          {% for obj in data %}
+
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="https://tiimg.tistatic.com/employees_photo/1/{{obj.user_id}}.png" class="d-block w-100" alt="...">
+                    <div class="card-body">
+                        user_id: {{obj.user_id}}<br>
+                        username: {{obj.username}}<br>
+                        joining_date: {{obj.joining_date}}<br>
+                        mobile: {{obj.mobile}}<br>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+
+
+        </div>
+    </div>
+</div>
+{% endblock body %}
+

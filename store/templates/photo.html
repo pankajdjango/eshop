@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+    <div class="row">
+        <form action="" method="get">
+            <div class="col-12">
+                <label for="user_id">user_id</label>
+                    <input type="text" name="user_id" value="{{req_data.user_id}}" class="form-control"/>
+            </div>
+	    <div class="col-12">
+                <label for="gen">Gender</label>
+		<select name="gender" id="gen" class="form-control select2">
+			<option value="">---Select Gender---</option>
+			<option value="Male" {% if req_data.gender == 'Male' %}selected{% endif %} >Male</option>
+			<option value="Female" {% if req_data.gender == 'Female' %}selected{% endif %} >Female</option>
+		</select>
+            </div>
+
+            <div class="col-12">
+                <label for="username"> username</label>
+                    <input type="text" name="username" value="{{req_data.username}}" class="form-control"/>
+            </div>
+            <div class="col-12">
+                <label for="department">department:</label>
+                <select name="department" id="department" class="form-control select2">
+			<option value="">----Select Department---</option>
+                    {% for dept in dept_obj %}
+                        <option value="{{ dept }}" {% if req_data.department == dept %}selected{% endif %}>{{ dept }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-12">
+                <label for="working">non-working:</label>
+                <input type="checkbox" name="working" id="working" {% if req_data.working %}checked{% endif %}>
+            </div>
+            <div class="col-12">
+                <input type="submit" value="Search">
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="row ">
+    {% for obj in page %}
+    <div class="col-sm-4">
+      <div class="card m-2 " style="background: linear-gradient(135deg, #d367ff, #64f9e4);">
+	      <img src="https://tiimg.tistatic.com/employees_photo/1/{{obj.user_id}}.png" class="card-img-top" height="" alt="">
+        <div class="card-footer">
+		<div class="row">
+<div class="col-4"><small class="text-light">username : {{obj.username}}</small></div>
+<div class="col-4"><small class="text-light">salary : {{obj.salary}}</small></div>
+<div class="col-4"><small class="text-light">branch_id : {{obj.branch_id}}</small></div>
+<div class="col-4"><small class="text-light">username : {{obj.username}}</small></div>
+<div class="col-4"><small class="text-light">joining_date : {{obj.joining_date}}</small></div>
+<div class="col-4"><small class="text-light">left_date : {{obj.left_date}}</small></div>
+<div class="col-4"><small class="text-light">working : {{obj.working}}</small></div>
+<div class="col-4"><small class="text-light">dob : {{obj.dob}}</small></div>
+<div class="col-4"><small class="text-light">user_email : {{obj.user_email}}</small></div>
+<div class="col-4"><small class="text-light">employee_code : {{obj.employee_code}}</small></div>
+<div class="col-4"><small class="text-light">confirmed : {{obj.confirmed}}</small></div>
+<div class="col-4"><small class="text-light">mobile : {{obj.mobile}}</small></div>
+<div class="col-4"><small class="text-light">handle_team : {{obj.handle_team}}</small></div>
+<div class="col-4"><small class="text-light">designation : {{obj.designation}}</small></div>
+<div class="col-4"><small class="text-light">department : {{obj.department}}</small></div>
+</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    
+     <div class="pagination row">
+        <div class="step-links offset-2">
+            {% if page.has_previous %}
+                <a class="btn" href="?page=1&user_id={{req_data.user_id}}&department={{req_data.department}}&working={{req_data.working}}&username={{req_data.username}}&gender={{req_data.gender}}">&laquo; first</a>
+		<a class="btn" href="?page={{ page.previous_page_number }}&user_id={{req_data.user_id}}&department={{req_data.department}}&working={{req_data.working}}&username={{req_data.username}}&gender={{req_data.gender}}">previous</a>
+            {% endif %}
+
+            <span class="current-page btn">{{ page.number }}</span>
+
+            {% if page.has_next %}
+                <a href="?page={{ page.next_page_number }}&user_id={{req_data.user_id}}&department={{req_data.department}}&working={{req_data.working}}&username={{req_data.username}}&gender={{req_data.gender}}" class="btn">next</a>
+		<a href="?page={{ page.paginator.num_pages }}&user_id={{req_data.user_id}}&department={{req_data.department}}&working={{req_data.working}}&username={{req_data.username}}&gender={{req_data.gender}}" class="btn" >last &raquo;</a>
+            {% endif %}
+	</div>
+     </div>
+</div>
+
+<script>
+    $('.select2').select2({
+        placeholder: 'Select an option'
+      });
+    </script>
+{% endblock body %}
+
+

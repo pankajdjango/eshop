@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Cart{% endblock title %}
+{% block body %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+    <div class="border rounded p-4 m-4">
+    <p class='display-4 pl-4 ml-4 text-info '>Your Cart </p>
+        {% comment %} {{products}} {% endcomment %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S No.</th>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td scope="row">{{forloop.counter}}</td>
+                    <td>{{product.name}}</td>
+                    <td><img src="{{product.image.url}}" class="rounded-circle" style="width: 50px;" alt=""></td>
+                    <td>{{product.price|currency}}</td>
+                    <td>{{product|cart_quantity:request.session.cart}}</td>
+                    <td>{{product|price_total:request.session.cart|currency}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                    <th colspan="3"></th>
+                    <th colspan=""> Total  </th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+            </tfoot>
+        </table>
+        <div class="m-3 p-3">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-primary border rounded col-lg-3 float-end">Check out</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Check out</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="m-2 p-2">
+            <form action="/check-out" method="POST" class="d-grid gap-3">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="">Address</label>
+                  <input type="text" name="address" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                  <label for="">Phone</label>
+                  <input type="text" name="phone" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <input class="btn btn-outline-primary col-lg-6 mt-1 offset-6" type="submit" value="Check out">            
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
